@@ -1,11 +1,11 @@
-<form class="form" action="/puppies/{{length}}/add" method="post" enctype="application/x-www-form-urlencoded">
+<form class="form" action="/puppies/{{length}}/add" method="post" enctype="multipart/form-data">
 
 
-  <img class="img-circle" src="/images/puppyProfile.jpg" alt="new-picture">
-
+  
+  <img class="img-circle" src="/images/puppyProfile.jpg" alt="Preview Image" id="previewImage">
   <label for="image" class="form-item">
     Picture:
-    <input type="file" name="image" >
+    <input type="file" id="fileInput" name="image"  >
     </label> 
   <label for="name" class="form-item">
     Name:
@@ -22,5 +22,6 @@
     <input type="text" name="owner" value="">
   </label>
   
-  <input type="submit" name="" value="Add">
+  <input type="submit" name="" value="Upload">
 </form>
+

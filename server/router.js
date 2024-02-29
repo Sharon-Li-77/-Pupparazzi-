@@ -5,10 +5,27 @@ import express from 'express'
 import hbs from 'express-handlebars'
 
 import { ReadData, Length } from './readFile.js'
+import multer from 'multer'
 
 import WriteFile from './writeFile.js'
+import { read } from 'node:fs'
 
 const router = express.Router()
+
+//Set up Multer Middleware
+
+const puppyImageNumber = await Length()
+
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, 'public/images/')
+  },
+  filename: function (req, file, cb) {
+    cb(null, 'puppy' + puppyImageNumber + '.jpg')
+  },
+})
+
+const upload = multer({ storage: storage })
 
 router.get('/:id', async (req, res) => {
   const id = Number(req.params.id)
@@ -82,10 +99,11 @@ router.get('/:id/add', async (req, res) => {
   res.render('add', newList)
 })
 
-router.post('/:id/add', async (req, res) => {
+router.post('/:id/add', upload.single('image'), async (req, res) => {
+  const fileName = req.file.filename
   const body = req.body
   console.log('body', body)
-
+  body.image = '/images/' + fileName
   let newData = await ReadData()
   const dataObject = JSON.parse(newData)
   const array = dataObject.puppies

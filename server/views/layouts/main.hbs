@@ -16,5 +16,28 @@
       {{{body}}}
     
     </div>
+    <script>
+
+      function previewImage(event) {
+  const fileInput = event.target
+  const previewImg = document.getElementById('previewImage')
+  if (fileInput.files && fileInput.files[0]) {
+    console.log(fileInput.files)
+    const reader = new FileReader()
+
+    reader.onload = function (e) {
+      previewImg.src = e.target.result
+      console.log(e.target.result)
+    }
+
+    reader.readAsDataURL(fileInput.files[0])
+  }
+}
+
+ const fileInput = document.getElementById('fileInput');
+      fileInput.addEventListener('change', previewImage);
+ 
+
+    </script>
   </body>
 </html>
