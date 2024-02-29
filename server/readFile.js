@@ -8,6 +8,6 @@ export async function ReadData() {
 export async function Length() {
   let size = await ReadData()
   let objectSize = JSON.parse(size)
-  let newSize = objectSize.puppies.length + 1
+  let newSize = objectSize.puppies.length
   return newSize
 }

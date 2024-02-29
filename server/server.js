@@ -23,14 +23,15 @@ server.set('views', Path.resolve('server/views'))
 
 server.get('/', async (req, res) => {
   const data = await readFile('server/data/data.json', 'utf-8')
-  let lengthSize = await Length()
   let stringData = JSON.parse(data)
+  let lengthSize = (await Length()) + 1
   stringData.length = lengthSize
 
   // const newArray = stringData.puppies
   // let updatedArray = newArray.map((e) => ({ ...e, Length: lengthSize }))
   // updatedArray = { puppies: updatedArray }
   console.log(stringData)
+  console.log('home', stringData.length)
 
   res.render('home', stringData)
 })

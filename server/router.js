@@ -36,7 +36,6 @@ router.get('/:id/edit', async (req, res) => {
 
 router.post('/:id/edit', async (req, res) => {
   const body = req.body
-
   const id = Number(req.params.id)
   body['id'] = id
   console.log('body', body, typeof body)
@@ -56,12 +55,48 @@ router.post('/:id/edit', async (req, res) => {
 })
 
 router.get('/:id/add', async (req, res) => {
-  let newLength = await Length()
-  let stringLength = JSON.stringify(newLength)
-  req.params.id = stringLength
-  console.log(stringLength)
+  console.log('id/post', req.params.id)
+  // let newLength = await Length()
+  // let stringLength = JSON.stringify(newLength)
+  // let lengthSize =req.params.id
+  // let updatedLength = { length: req.params.id }
+  let id2 = Number(req.params.id)
+  let newData = await ReadData()
+  const dataObject = JSON.parse(newData)
+  let array = dataObject.puppies
+  let newObject = {
+    name: null,
+    image: null,
+    breed: null,
+    owner: null,
+    id: id2,
+  }
+  array.push(newObject)
 
-  res.render('add')
+  let newList = { puppies: array, length: id2 }
+
+  let newListString = JSON.stringify(newList, null, 2)
+
+  await WriteFile(newListString)
+
+  res.render('add', newList)
+})
+
+router.post('/:id/add', async (req, res) => {
+  const body = req.body
+  console.log('body', body)
+
+  let newData = await ReadData()
+  const dataObject = JSON.parse(newData)
+  const array = dataObject.puppies
+  let id = Number(req.params.id)
+  body.id = id
+  let idArray = array.map((e) => (e.id === id ? { ...body } : e))
+  idArray = { puppies: idArray }
+  idArray = JSON.stringify(idArray, null, 2)
+
+  await WriteFile(idArray)
+  res.redirect(`/`)
 })
 
 export default router
