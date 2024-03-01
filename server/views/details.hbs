@@ -4,4 +4,6 @@
   <div>Breed: {{breed}}</div>
   <div>Owner: {{owner}}</div>
   <a href="/puppies/{{id}}/edit">Edit</a>
+  <a href="/puppies/{{id}}/delete" class='delete-link' data-id="{{id}}" onclick="return confirm('Are you sure you want to delete this puppy?')">Delete</a>
 </div>
+

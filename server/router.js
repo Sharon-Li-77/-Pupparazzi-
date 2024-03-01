@@ -1,14 +1,9 @@
-import * as Path from 'node:path'
-import * as URL from 'node:url'
-
 import express from 'express'
-import hbs from 'express-handlebars'
 
 import { ReadData, Length } from './readFile.js'
 import multer from 'multer'
 
 import WriteFile from './writeFile.js'
-import { read } from 'node:fs'
 
 const router = express.Router()
 
@@ -115,6 +110,31 @@ router.post('/:id/add', upload.single('image'), async (req, res) => {
 
   await WriteFile(idArray)
   res.redirect(`/`)
+})
+
+router.delete('/:id/delete', async (req, res) => {
+  try {
+    const id = Number(req.params.id)
+    let newData = await ReadData()
+    let dataObject = JSON.parse(newData)
+    let array = dataObject.puppies
+    let idArray = array.filter((e) => e.id !== id)
+    let updatedLength = idArray.length
+    let updatedId = idArray.map((e, index) => {
+      e.id = index + 1
+      return e
+    })
+    console.log(updatedId)
+
+    let updatedObject = { puppies: idArray, length: updatedLength }
+    updatedObject = JSON.stringify(updatedObject, null, 2)
+    await WriteFile(updatedObject)
+
+    res.sendStatus(200)
+  } catch (error) {
+    console.error(error)
+    res.status(500).send('Error!')
+  }
 })
 
 export default router

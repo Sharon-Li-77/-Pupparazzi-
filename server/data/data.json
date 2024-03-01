@@ -9,7 +9,7 @@
     },
     {
       "id": 2,
-      "name": "123566",
+      "name": "Cat",
       "owner": "Chloe",
       "image": "/images/puppy2.jpg",
       "breed": "Labrador"
@@ -48,5 +48,13 @@
       "owner": "Ricky",
       "image": "/images/puppy7.jpg",
       "breed": "Labrador"
+    },
+    {
+      "name": null,
+      "image": null,
+      "breed": null,
+      "owner": null,
+      "id": 8
     }
+  ]
 }
