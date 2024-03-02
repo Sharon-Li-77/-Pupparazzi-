@@ -9,14 +9,12 @@ const router = express.Router()
 
 //Set up Multer Middleware
 
-const puppyImageNumber = await Length()
-
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, 'public/images/')
   },
   filename: function (req, file, cb) {
-    cb(null, 'puppy' + puppyImageNumber + '.jpg')
+    cb(null, 'puppy' + file.originalname + '.jpg')
   },
 })
 
