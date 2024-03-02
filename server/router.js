@@ -113,28 +113,28 @@ router.post('/:id/add', upload.single('image'), async (req, res) => {
 })
 
 router.delete('/:id/delete', async (req, res) => {
-  try {
-    const id = Number(req.params.id)
-    let newData = await ReadData()
-    let dataObject = JSON.parse(newData)
-    let array = dataObject.puppies
-    let idArray = array.filter((e) => e.id !== id)
-    let updatedLength = idArray.length
-    let updatedId = idArray.map((e, index) => {
-      e.id = index + 1
-      return e
-    })
-    console.log(updatedId)
+  // try {
+  const id = Number(req.params.id)
+  let newData = await ReadData()
+  let dataObject = JSON.parse(newData)
+  let array = dataObject.puppies
+  let idArray = array.filter((e) => e.id !== id)
+  let updatedLength = idArray.length
+  let updatedId = idArray.map((e, index) => {
+    e.id = index + 1
+    return e
+  })
+  console.log(updatedId)
 
-    let updatedObject = { puppies: idArray, length: updatedLength }
-    updatedObject = JSON.stringify(updatedObject, null, 2)
-    await WriteFile(updatedObject)
+  let updatedObject = { puppies: idArray, length: updatedLength }
+  updatedObject = JSON.stringify(updatedObject, null, 2)
+  await WriteFile(updatedObject)
 
-    res.sendStatus(200)
-  } catch (error) {
-    console.error(error)
-    res.status(500).send('Error!')
-  }
+  res.redirect(`/`)
+  // } catch (error) {
+  //   console.error(error)
+  //   res.status(500).send('Error!')
+  // }
 })
 
 export default router

@@ -18,9 +18,34 @@
     </div>
     <script>
 
-      function previewImage(event) {
-  const fileInput = event.target
+      document.addEventListener('DOMContentLoaded', function() {
+  const deleteLinks = document.querySelectorAll('.delete-link');
+  deleteLinks.forEach(function(link) {
+    link.addEventListener('click', function(event) {
+      event.preventDefault()
+       {{!-- event.stopPropagation(); --}}
+      const id = link.getAttribute('data-id');
+      fetch(`/puppies/${id}/delete`, {
+        method: 'DELETE',
+      })
+      .then(response => {
+          console.log('Request is Success.');
+          window.location.href=`/`;
+        
+      })
+      .catch(error => {
+        console.error('Request is Fail.');
+      });
+    });
+  });
+});
+
+
+          function previewImage(event) {
+       
+  const fileInput = event.target 
   const previewImg = document.getElementById('previewImage')
+
   if (fileInput.files && fileInput.files[0]) {
     console.log(fileInput.files)
     const reader = new FileReader()
@@ -34,31 +59,14 @@
   }
 }
 
- const fileInput = document.getElementById('fileInput');
-      fileInput.addEventListener('change', previewImage);
+const fileInput= document.getElementById('fileInput')
+fileInput.addEventListener('change', previewImage)
 
- const deleteLinks = document.querySelectorAll('.delete-link')
- deleteLinks.forEach(link => {
-    link.addEventListener('click', function(event) {
-      event.preventDefault()
-      const id = this.getAttribute('data-id')
-      fetch(`/puppies/${id}/delete`, {
-        method: 'DELETE'
-      })
-      .then(response => {
-        if (response.ok) {
-          // Handle success
-          console.log('Item deleted successfully');
-        } else {
-          // Handle error
-          console.error('Error deleting item');
-        }
-      })
-      .catch(error => {
-        console.error('Network error:', error);
-      });
-    });
-  });
+
+      
+
+
+
   
 
     </script>
